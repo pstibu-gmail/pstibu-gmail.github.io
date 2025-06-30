@@ -185,6 +185,9 @@
             color: #333;
             font-size: 0.9rem;
         }
+        .center-btn {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -205,15 +208,8 @@
         <!-- Document Viewer Section -->
         <div class="content-grid">
             <!-- PDF Section -->
-            <div class="section">
-                <h2>📋 PDF Document</h2>
-                <div class="pdf-container">
-                    <embed src="documents/pdf_merged.pdf" type="application/pdf" class="pdf-embed">
-                    <div class="pdf-fallback">
-                        <p>📄 PDF cannot be displayed in this browser</p>
-                        <a href="documents/pdf_merged.pdf" class="download-btn" download>Download PDF</a>
-                    </div>
-                </div>
+            <div class="center-btn">
+                <a href="documents/pdf_merged.pdf" class="download-btn center" download>Download PDF</a>
             </div>
         </div>
     </div>
