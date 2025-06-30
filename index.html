@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .pdf-container {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pdf-embed {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .pdf-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f8f9fa;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .image-container {
+            text-align: center;
+        }
+
+        .image-display {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-display:hover {
+            transform: scale(1.02);
+        }
+
+        .file-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .file-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .file-info strong {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            border: 2px dashed #667eea;
+        }
+
+        .upload-section p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .file-path {
+            font-family: monospace;
+            background: #f1f3f4;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #333;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 PDF QR Code</h1>
+        
+        <!-- Image Section -->
+        <div class="section">
+            
+            <div class="image-container">
+                <img src="images/qr.png" alt="Sample Image" class="image-display" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="display:none; text-align:center; padding:50px; background:#f8f9fa; border-radius:10px; color:#666;">
+                    <p>🖼️ Image not found</p>
+                    <p>Please upload your image to: <span class="file-path">images/sample.jpg</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- Document Viewer Section -->
+        <div class="content-grid">
+            <!-- PDF Section -->
+            <div class="section">
+                <h2>📋 PDF Document</h2>
+                <div class="pdf-container">
+                    <embed src="documents/pdf_merged.pdf" type="application/pdf" class="pdf-embed">
+                    <div class="pdf-fallback">
+                        <p>📄 PDF cannot be displayed in this browser</p>
+                        <a href="documents/pdf_merged.pdf" class="download-btn" download>Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple script to handle PDF display fallback
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfEmbed = document.querySelector('.pdf-embed');
+            const pdfFallback = document.querySelector('.pdf-fallback');
+            
+            // Check if PDF embed is supported
+            if (!pdfEmbed.contentDocument && !pdfEmbed.contentWindow) {
+                pdfEmbed.style.display = 'none';
+                pdfFallback.style.display = 'flex';
+            }
+            
+            // Auto-hide fallback if PDF loads successfully
+            pdfEmbed.addEventListener('load', function() {
+                pdfFallback.style.display = 'none';
+            });
+        });
+
+        // Handle image loading errors gracefully
+        document.querySelector('.image-display').addEventListener('error', function() {
+            console.log('Image failed to load, showing fallback message');
+        });
+    </script>
+</body>
+</html>
